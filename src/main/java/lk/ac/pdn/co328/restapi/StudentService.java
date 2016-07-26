@@ -1,18 +1,24 @@
 
 package lk.ac.pdn.co328.restapi;
 import lk.ac.pdn.co328.studentSystem.Student;
-import lk.ac.pdn.co328.studentSystem.StudentRegister;
+import lk.ac.pdn.co328.studentSystem.dbimplementation.DerbyStudentRegister;
 import org.jboss.resteasy.util.HttpResponseCodes;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import lk.ac.pdn.co328.studentSystem.arraylistimplementation.ArraylistStudentRegister;
+
 
 @Path("rest")
 public class StudentService
 {
-    private static StudentRegister register = new ArraylistStudentRegister();
+    private static DerbyStudentRegister  register;
+
+    public StudentService(){
+        try {
+            this.register = new DerbyStudentRegister();
+        }catch (Exception e){}
+    }
 
     @GET
     @Path("student/{id}")
