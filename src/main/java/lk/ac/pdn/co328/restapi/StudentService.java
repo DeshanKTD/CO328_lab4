@@ -17,7 +17,9 @@ public class StudentService
     public StudentService(){
         try {
             this.register = new DerbyStudentRegister();
-        }catch (Exception e){}
+        }catch (Exception e){
+            System.out.print(e);
+        }
     }
 
     @GET
@@ -85,7 +87,6 @@ public class StudentService
         if (input != (null)) {
             try {
                 register.addStudent(input);
-                System.out.println(input.getFirstName());
                 return Response.status(HttpResponseCodes.SC_OK).build();
             } catch (Exception e) {
                 e.printStackTrace();

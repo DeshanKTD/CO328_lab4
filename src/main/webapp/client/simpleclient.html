@@ -52,7 +52,7 @@ and open the template in the editor.
                                     }
                                 }
                   $.ajax({
-                    url: '../rest/student/new',
+                    url: '../rest/student/' + $("#id_field").val(),
                     type: 'POST',
                     data: JSON.stringify(requestData),
                     contentType:'application/json; charset=UTF-8',

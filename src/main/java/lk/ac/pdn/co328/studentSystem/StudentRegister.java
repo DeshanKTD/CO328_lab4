@@ -6,6 +6,8 @@
 package lk.ac.pdn.co328.studentSystem;
 
 import java.sql.SQLException;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.util.ArrayList;
 
 /**

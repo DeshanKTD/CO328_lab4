@@ -19,7 +19,8 @@ public class DerbyStudentRegister extends StudentRegister {
     Connection connection = null;
     public DerbyStudentRegister() throws SQLException
     {
-            String dbURL1 = "jdbc:derby:codejava/studentDB;create=true";
+            DriverManager.registerDriver(new org.apache.derby.jdbc.EmbeddedDriver());
+            String dbURL1 = "jdbc:derby:studentDB;create=true";
             connection = DriverManager.getConnection(dbURL1);
             if (connection != null)
             {
@@ -82,21 +83,25 @@ public class DerbyStudentRegister extends StudentRegister {
 
     @Override
     public Student findStudent(int regNo) throws Exception{
+        Student student = null;
         if (connection !=null){
             String SQL_FindStudent = "SELECT * FROM Students WHERE id=" + regNo;
             System.out.println("Searching student from DB");
 
             Statement stmnt = connection.createStatement();
             ResultSet result =  stmnt.executeQuery(SQL_FindStudent);
-            Student student = new Student(result.getInt("id"),result.getString("fname"),result.getString("lname"));
+            if(result.next()){
+                student = new Student(result.getInt("id"),result.getString("fname"),result.getString("lname"));
+
+            }
             stmnt.close();
             System.out.println("Student Search finished");
 
-            return student;
         }
         else {
             throw new Exception("Database Connection Error");
         }
+        return student;
     }
 
 
