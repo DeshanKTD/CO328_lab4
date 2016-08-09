@@ -23,8 +23,9 @@ public class StudentService
     @GET
     @Path("student/{id}")
     // Uncommenting this will let the reciver know that you are sending a json
-    @Produces( MediaType.APPLICATION_JSON + "," + MediaType.APPLICATION_XML )
-    public Response viewStudent(@PathParam("id") int id) {
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces( MediaType.APPLICATION_JSON)
+    public Response viewStudent(@PathParam("id") int id) throws Exception {
         Student st = register.findStudent(id);
         if(st == null){
             return Response.status(HttpResponseCodes.SC_NOT_FOUND).build();
@@ -32,11 +33,12 @@ public class StudentService
         return Response.status(HttpResponseCodes.SC_OK).entity(st).build();
     }
 
-    @PUT
+    @POST
     @Path("student/{id}")
-    @Consumes("application/xml")
-    public Response modifyStudent(@PathParam("id") int id, Student input)
-    {
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces( MediaType.APPLICATION_JSON)
+    public Response modifyStudent(@PathParam("id") int id, Student input) throws Exception {
+        System.out.println(input.getFirstName());
         if(input == null) {
             try {
                 register.addStudent(input);
@@ -59,8 +61,9 @@ public class StudentService
 
     @DELETE
     @Path("student/{id}")
-
-    public Response deleteStudent(@PathParam("id") int id) {
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces( MediaType.APPLICATION_JSON)
+    public Response deleteStudent(@PathParam("id") int id) throws Exception {
         if ((register.findStudent(id) != (null))) {
             try {
                 register.removeStudent(id);
@@ -73,13 +76,16 @@ public class StudentService
         }
     }
 
-    @POST
+    @PUT
     @Path("student/new")
-    @Consumes(MediaType.APPLICATION_JSON + "," + MediaType.APPLICATION_XML)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces( MediaType.APPLICATION_JSON)
     public Response addStudent(Student input) {
+
         if (input != (null)) {
             try {
                 register.addStudent(input);
+                System.out.println(input.getFirstName());
                 return Response.status(HttpResponseCodes.SC_OK).build();
             } catch (Exception e) {
                 e.printStackTrace();

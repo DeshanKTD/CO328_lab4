@@ -48,7 +48,7 @@ and open the template in the editor.
                     var requestData = { "student":{
                                         id: $("#id_field").val(),
                                         firstName: $("#name_field").val(),
-                                        lastName: $("#name_field").val(),
+                                        lastName: $("#name_field").val()
                                     }
                                 }
                   $.ajax({
@@ -69,11 +69,37 @@ and open the template in the editor.
             function deleteData()
             {
                 document.getElementById("result").innerHTML="delete data";
+                $.ajax({
+                    url: '../rest/student/' + $("#id_field").val(),
+                    type: 'DELETE',
+                    success: function(data,status,response) {
+                        var object = response.responseJSON;
+                        document.getElementById("result").innerHTML= JSON.stringify(object);
+                    },
+                    error: function(xhr, status, text) {
+                        document.getElementById("result").innerHTML=text;
+                    }
+                });
             }
                         
             function putData()
             {
                 document.getElementById("result").innerHTML="put data";
+                var requestData = { "student":{
+                    id: $("#id_field").val(),
+                    firstName: $("#name_field").val(),
+                    lastName: $("#name_field").val()
+                }
+                }
+                $.ajax({
+                    url: '../rest/student/new',
+                    type: 'PUT',
+                    data: JSON.stringify(requestData),
+                    contentType:'application/json; charset=UTF-8',
+                    error: function(xhr, status, text) {
+                        document.getElementById("result").innerHTML=text;
+                    }
+                });
             }
         </script>
         
